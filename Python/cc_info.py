@@ -23,6 +23,8 @@ import sys
 # Get serial port either form environment or from arguments
 opts = getOptions("Generic CCDebugger Information Tool")
 
+print("Options: {}".format(opts))
+
 # Open debugger
 try:
 	dbg = openCCDebugger(opts['port'], enterDebug=opts['enter'])

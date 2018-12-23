@@ -81,20 +81,24 @@ class CCLibProxy:
 
 			else:
 				# Open port
+				print("Opening port: {}".format(port))
 				try:
-					self.ser = serial.Serial(port)
+					self.ser = serial.Serial(port, 115200, timeout=5)
 					self.port = port
+					time.sleep(2)
 				except:
 					raise IOError("Could not open port %s" % port)
 
 				# Ping
 				try:
+					print("Pinging device")
 					self.ping()
 				except IOError:
 					raise IOError("Could not find CCLib_proxy device on port %s" % self.ser.name)
 
 			# Check if we should enter debug mode
 			if enterDebug:
+				print("Entering debug mode")
 				self.enter()
 
 			# Get instruction table version
@@ -156,6 +160,7 @@ class CCLibProxy:
 
 		# Read response frame
 		b = self.ser.read()
+		# print("Received: {}".format(b))
 		if len(b) == 0:
 			raise IOError("Could not read from the serial port!")
 		status = ord(b)
@@ -198,7 +203,7 @@ class CCLibProxy:
 		"""
 		Send the specified frame to the output queue
 		"""
-
+		# print("Sending frame\nCMD:{}\nC1:{}\nC2:{}\nC3:{}".format(cmd, c1, c2, c3))
 		# Send the 4-byte command frame
 		self.ser.write( chr(cmd)+chr(c1)+chr(c2)+chr(c3) )
 		self.ser.flush()
