@@ -83,7 +83,7 @@ class CCLibProxy:
 				# Open port
 				print("Opening port: {}".format(port))
 				try:
-					self.ser = serial.Serial(port, 115200, timeout=20)
+					self.ser = serial.Serial(port, 9600, timeout=3, write_timeout=3)
 					self.port = port
 					time.sleep(2)
 				except:
